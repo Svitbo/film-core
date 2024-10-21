@@ -1,0 +1,39 @@
+# Ignore Python bytecode files
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment directories
+venv/
+
+# Ignore Docker files
+Dockerfile
+docker-compose.yml
+compose.d/
+
+# Ignore logs
+*.log
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+*.swp
+
+# Ignore testing files
+tests/
+test_*.py
+
+# Ignore data files
+data/
+*.csv
+*.json
+
+# Ignore other unnecessary files
+*.md
+*.zip
+*.tar.gz
+*.tgz
+*.bak
+*.tmp
+*.DS_Store

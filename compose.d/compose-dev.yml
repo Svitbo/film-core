@@ -1,0 +1,17 @@
+services:
+  mariadb:
+    ports:
+      - "3306:3306"
+
+  adminer:
+    build:
+      context: ../
+      dockerfile: compose.d/Dockerfile.adminer
+    container_name: adminer
+    restart: unless-stopped
+    ports:
+      - "8090:8080"
+    depends_on:
+      - mariadb
+    networks:
+      - svitbo

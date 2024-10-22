@@ -18,4 +18,5 @@ class Film(Base):
     duration_minutes = Column(Integer, nullable=False)
     revenue = Column(Integer, nullable=False)
     description = Column(Text, nullable=True)
+    cover_image = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)

@@ -1,18 +1,16 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 
 from ..auth.auth import get_current_user
-from ..crud.film_crud import (
-    create_film,
-    delete_film,
-    get_film_by_id,
-    get_films,
-    update_film,
-)
+from ..config import config
+from ..crud.film_crud import *
 from ..database import get_db
 from ..enums import RoleEnum
 from ..models import User as UserModel
 from ..schemas import Film, FilmCreate
+
+STATIC_BUCKET = config.GCP_STATIC_BUCKET
+STATIC_PREFIX = config.GCP_COVERS_PREFIX
 
 router = APIRouter()
 
@@ -30,6 +28,35 @@ def create_film_route(
         )
 
     return create_film(db=db, film=film)
+
+
+@router.post("/{film_id}/upload-cover")
+async def upload_cover_image(
+    film_id: int,
+    cover_image: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    if current_user.role != RoleEnum.ADMIN:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admin users can upload cover images.",
+        )
+
+    film = get_film_by_id(db=db, film_id=film_id)
+    if not film:
+        raise HTTPException(status_code=404, detail="Film not found")
+
+    object_name = f"{STATIC_PREFIX}/{cover_image.filename}"
+    cover_image_url = await upload_to_gcp_bucket(
+        cover_image, STATIC_BUCKET, object_name
+    )
+
+    updated_film = update_film_cover_image(
+        db=db, film_id=film_id, cover_image_url=cover_image_url
+    )
+
+    return updated_film
 
 
 @router.get("/")

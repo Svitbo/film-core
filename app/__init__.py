@@ -1,4 +1,4 @@
-from .database import DATABASE_URL, SessionLocal, engine, get_db
+from .database import SessionLocal, engine, get_db
 from .main import app
 from .models import Base
 

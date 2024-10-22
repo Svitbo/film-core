@@ -3,17 +3,17 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
-from app.database import DATABASE_URL
+from app.config import config as env_config
 from app.models import Base
 
-# print(f"Connecting to the database at: {DATABASE_URL}")
+# print(f"Connecting to the database at: {env_config.DB_URL}")
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
 # Update the sqlalchemy.url option in the Alembic config
-config.set_main_option("sqlalchemy.url", DATABASE_URL)
+config.set_main_option("sqlalchemy.url", env_config.DB_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

@@ -12,3 +12,4 @@ pymysql
 python-jose
 bcrypt
 python-multipart
+google-cloud-storage

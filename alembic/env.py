@@ -4,7 +4,7 @@ from sqlalchemy import engine_from_config, pool
 
 from alembic import context
 from app.config import config as env_config
-from app.models import Base
+from app.models import Base, Film, User
 
 # print(f"Connecting to the database at: {env_config.DB_URL}")
 

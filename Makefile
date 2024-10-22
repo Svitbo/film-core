@@ -34,11 +34,9 @@ core-destroy-dev:
 		down \
 		-t 3 \
 		--volumes \
-		--remove-orphans
 
 core-destroy-prod:
 	docker compose -f compose.d/compose.yml \
 		--env-file .env \
 		down \
 		-t 3 \
-		--remove-orphans

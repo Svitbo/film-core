@@ -3,6 +3,7 @@ from ..config import config
 from ..enums import CountryEnum, GenreEnum, ProducerEnum
 from ..models import Film
 
+GCP_STORAGE_API_PREFIX = config.GCP_STORAGE_API_PREFIX
 GCP_STATIC_BUCKET = config.GCP_STATIC_BUCKET
 GCP_COVERS_PREFIX = config.GCP_COVERS_PREFIX
 
@@ -25,7 +26,7 @@ def populate_test_films_data():
                 duration_minutes=155,
                 revenue=709565868,
                 description="The epic conclusion of the saga of Paul Atreides, as he unites the desert people of Arrakis and confronts the forces that threaten to destroy his future.",
-                cover_image=f"gs://{GCP_STATIC_BUCKET}/{GCP_COVERS_PREFIX}/dune_part_two.jpg",
+                cover_image=f"{GCP_STORAGE_API_PREFIX}/{GCP_STATIC_BUCKET}/{GCP_COVERS_PREFIX}/dune_part_two.jpg",
             ),
             Film(
                 title="The Green Mile",
@@ -36,7 +37,7 @@ def populate_test_films_data():
                 duration_minutes=189,
                 revenue=286801374.0,
                 description="The lives of guards on Death Row are affected by one of their charges: a black man accused of child murder, who has a mysterious gift.",
-                cover_image=f"gs://{GCP_STATIC_BUCKET}/{GCP_COVERS_PREFIX}/the_green_mile.jpg",
+                cover_image=f"{GCP_STORAGE_API_PREFIX}/{GCP_STATIC_BUCKET}/{GCP_COVERS_PREFIX}/the_green_mile.jpg",
             ),
         ]
 

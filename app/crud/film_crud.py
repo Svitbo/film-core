@@ -2,6 +2,7 @@ from fastapi import UploadFile
 from sqlalchemy import asc, desc
 from sqlalchemy.orm import Session
 
+from ..config import config
 from ..gcp import static_bucket
 from ..models import Film as FilmModel
 from ..schemas import Film as FilmSchema
@@ -46,7 +47,7 @@ async def upload_to_gcp_bucket(
 
     blob.upload_from_file(file.file, content_type=file.content_type)
 
-    return f"gs://{bucket_name}/{object_name}"
+    return f"{config.GCP_STORAGE_API_PREFIX}/{bucket_name}/{object_name}"
 
 
 def get_film_by_id(db: Session, film_id: int) -> FilmSchema:

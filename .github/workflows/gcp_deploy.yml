@@ -36,4 +36,4 @@ jobs:
       - name: "auth"
         uses: "google-github-actions/auth@v2"
         with:
-          credentials_json: { { env.CREDENTIALS } }
+          credentials_json: ${{ env.CREDENTIALS }}

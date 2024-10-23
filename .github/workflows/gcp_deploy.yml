@@ -22,12 +22,9 @@ jobs:
             BRANCH="develop"
             INSTANCE_NAME="${{ secrets.DEV_GCP_INSTANCE_NAME }}"
             ZONE="${{ secrets.DEV_GCP_ZONE }}"
-            VAR="
-            ${{ secrets.DEV_GCP_SSH_PRIVATE_KEY }}
-            "
+            VAR="${{ secrets.DEV_GCP_SSH_PRIVATE_KEY }}"
           else
             echo "Not a main or develop branch. Well, we shouldn't be here at all"
-            # exit 0
           fi
 
       - name: "auth"

@@ -12,13 +12,14 @@ env:
   CREDENTIALS: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_SA_CREDENTIALS || secrets.DEV_GCP_SA_CREDENTIALS }}
   INSTANCE_NAME: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_INSTANCE_NAME || secrets.DEV_GCP_INSTANCE_NAME }}
   ZONE: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_ZONE || secrets.DEV_GCP_ZONE }}
+  CORE_REPO_URL: ${{ secrets.CORE_REPO_URL }}
 
 jobs:
   pull-code:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "auth"
+      - name: "GCP auth"
         uses: "google-github-actions/auth@v2"
         with:
           credentials_json: ${{ env.CREDENTIALS }}
@@ -28,9 +29,9 @@ jobs:
         with:
           version: ">= 363.0.0"
 
-      - name: "Use gcloud CLI"
-        run: "gcloud info"
-
-      - name: Copy files to GCP
+      - name: "Set up core repository on server"
         run: |
-          gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.ZONE }} --command 'pwd && whoami'
+          gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.ZONE }} --command '\
+            pwd && \
+            whoami \
+            '

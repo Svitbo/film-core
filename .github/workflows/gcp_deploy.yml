@@ -7,6 +7,9 @@ on:
       - develop
       - add-gh-actions-gcp-deployment # Remove later
 
+env:
+  VAR: "3335"
+
 jobs:
   pull-code:
     runs-on: ubuntu-latest
@@ -29,15 +32,11 @@ jobs:
           else
             echo "Not a main or develop branch. Well, we shouldn't be here at all"
           fi
-        env:
-          VAR: ${{ secrets.PROD_GCP_INSTANCE_NAME }}
 
       - name: "test"
         run: |
           echo ${{ env.VAR }}
           echo $VAR
-        env:
-          VAR: "123"
 
       - name: "auth"
         uses: "google-github-actions/auth@v2"

@@ -16,18 +16,20 @@ jobs:
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             BRANCH="main"
-            CREDENTIALS="${{ secrets.PROD_GCP_SA_CREDENTIALS }}"
+            # CREDENTIALS="${{ secrets.PROD_GCP_SA_CREDENTIALS }}"
             INSTANCE_NAME="${{ secrets.PROD_GCP_INSTANCE_NAME }}"
-            SSH_PRIVATE_KEY="${{ secrets.PROD_GCP_SSH_PRIVATE_KEY }}"
+            # SSH_PRIVATE_KEY="${{ secrets.PROD_GCP_SSH_PRIVATE_KEY }}"
             ZONE="${{ secrets.PROD_GCP_ZONE }}"
           elif [[ "${{ github.ref }}" == "refs/heads/add-gh-actions-gcp-deployment" ]]; then
             BRANCH="develop"
-            CREDENTIALS="${{ secrets.DEV_GCP_SA_CREDENTIALS }}"
+            # CREDENTIALS="${{ secrets.DEV_GCP_SA_CREDENTIALS }}"
             SSH_PRIVATE_KEY="${{ secrets.DEV_GCP_SSH_PRIVATE_KEY }}"
             INSTANCE_NAME="${{ secrets.DEV_GCP_INSTANCE_NAME }}"
+            echo "SSH_PRIVATE_KEY=${{ secrets.DEV_GCP_SSH_PRIVATE_KEY }}" >> $GITHUB_ENV
             ZONE="${{ secrets.DEV_GCP_ZONE }}"
           else
             echo "Not a main or develop branch. Well, we shouldn't be here at all"
+            # exit 0
           fi
 
       - name: "auth"

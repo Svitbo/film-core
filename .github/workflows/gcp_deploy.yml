@@ -8,7 +8,7 @@ on:
       - add-gh-actions-gcp-deployment # Remove later
 
 env:
-  VAR: ${{ secrets.DEV_GCP_SA_CREDENTIALS }}
+  CREDENTIALS: ${{ secrets.DEV_GCP_SA_CREDENTIALS }}
 
 jobs:
   pull-code:
@@ -36,4 +36,4 @@ jobs:
       - name: "auth"
         uses: "google-github-actions/auth@v2"
         with:
-          credentials_json: "$CREDENTIALS"
+          credentials_json: { { env.CREDENTIALS } }

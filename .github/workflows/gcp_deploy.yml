@@ -8,7 +8,7 @@ on:
       - add-gh-actions-gcp-deployment # Remove later
 
 env:
-  CREDENTIALS: ${{ secrets.DEV_GCP_SA_CREDENTIALS }}
+  BRANCH: ${{ github.ref == 'refs/heads/main' && 'main' || secrets.DEV_GCP_INSTANCE_NAME }}
 
 jobs:
   pull-code:

@@ -17,12 +17,13 @@ jobs:
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             BRANCH="main"
             INSTANCE_NAME="${{ secrets.PROD_GCP_INSTANCE_NAME }}"
+            SSH_PRIVATE_KEY="${{ secrets.PROD_GCP_SSH_PRIVATE_KEY }}"
             ZONE="${{ secrets.PROD_GCP_ZONE }}"
           elif [[ "${{ github.ref }}" == "refs/heads/add-gh-actions-gcp-deployment" ]]; then
             BRANCH="develop"
             INSTANCE_NAME="${{ secrets.DEV_GCP_INSTANCE_NAME }}"
+            SSH_PRIVATE_KEY="${{ secrets.DEV_GCP_SSH_PRIVATE_KEY }}"
             ZONE="${{ secrets.DEV_GCP_ZONE }}"
-            VAR="${{ secrets.DEV_GCP_SSH_PRIVATE_KEY }}"
           else
             echo "Not a main or develop branch. Well, we shouldn't be here at all"
           fi

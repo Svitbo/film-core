@@ -28,9 +28,9 @@ jobs:
         with:
           version: ">= 363.0.0"
 
-      - name: "Set up core repository on server"
+      - name: "Set up core repository on remote server"
         run: |
           gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.ZONE }} --command ' \
-            if [ ! -d '${{ github.event.repository.name }}' ]; then git clone ${{ secrets.ALL_CORE_REPO_URL }} && \
+            if [ ! -d film-core ]; then git clone https://github.com/Svitbo/film-core && \
             whoami \
           '

@@ -31,6 +31,6 @@ jobs:
       - name: "Set up core repository on remote server"
         run: |
           gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.ZONE }} --command ' \
-            pwd
+            pwd && \
             whoami \
           '

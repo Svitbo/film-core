@@ -22,6 +22,11 @@ jobs:
             BRANCH="develop"
             INSTANCE_NAME="${{ secrets.DEV_GCP_INSTANCE_NAME }}"
             ZONE="${{ secrets.DEV_GCP_ZONE }}"
+            VAR="
+            1
+            2
+            3
+            "
           else
             echo "Not a main or develop branch. Well, we shouldn't be here at all"
             # exit 0

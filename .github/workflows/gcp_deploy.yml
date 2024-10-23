@@ -29,11 +29,12 @@ jobs:
           else
             echo "Not a main or develop branch. Well, we shouldn't be here at all"
           fi
+        env:
+          VAR: ${{ secrets.PROD_GCP_INSTANCE_NAME }}
 
       - name: "test"
         run: |
-          echo $BRANCH
-          echo $CREDENTIALS
+          echo $VAR
 
       - name: "auth"
         uses: "google-github-actions/auth@v2"

@@ -36,6 +36,8 @@ jobs:
         run: |
           echo ${{ env.VAR }}
           echo $VAR
+        env:
+          VAR: "123"
 
       - name: "auth"
         uses: "google-github-actions/auth@v2"

@@ -9,6 +9,7 @@ on:
 
 env:
   BRANCH: ${{ github.ref == 'refs/heads/main' && 'main' || secrets.DEV_GCP_INSTANCE_NAME }}
+  CREDENTIALS: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_SA_CREDENTIALS || secrets.DEV_GCP_SA_CREDENTIALS }}
 
 jobs:
   pull-code:

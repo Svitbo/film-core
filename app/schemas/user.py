@@ -1,6 +1,9 @@
+from typing import List
+
 from pydantic import BaseModel
 
 from ..enums import RoleEnum
+from .film import Film
 
 
 class UserBase(BaseModel):
@@ -14,6 +17,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     role: RoleEnum
+    favorite_films: List[Film] = []
 
     class Config:
         from_attributes = True

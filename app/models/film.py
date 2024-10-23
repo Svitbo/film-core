@@ -1,9 +1,11 @@
 from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Enum, Integer, String, Text
+from sqlalchemy.orm import relationship
 
 from ..enums import CountryEnum, GenreEnum, ProducerEnum
 from . import Base
+from .film_user_association import favorite_films_table
 
 
 class Film(Base):
@@ -20,3 +22,7 @@ class Film(Base):
     description = Column(Text, nullable=True)
     cover_image = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+    favorited_by = relationship(
+        "User", secondary=favorite_films_table, back_populates="favorite_films"
+    )

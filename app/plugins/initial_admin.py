@@ -1,17 +1,12 @@
-import os
-
-from dotenv import load_dotenv
-
 from .. import SessionLocal
+from ..config import config
 from ..crud import create_user
 from ..enums import RoleEnum
 from ..models import User as UserModel
 from ..schemas import UserCreate
 
-load_dotenv()
-
-INITIAL_ADMIN_USERNAME = os.getenv("INITIAL_ADMIN_USERNAME")
-INITIAL_ADMIN_PASSWORD = os.getenv("INITIAL_ADMIN_PASSWORD")
+INITIAL_ADMIN_USERNAME = config.INITIAL_ADMIN_USERNAME
+INITIAL_ADMIN_PASSWORD = config.INITIAL_ADMIN_PASSWORD
 
 
 def add_initial_admin():

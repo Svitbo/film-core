@@ -22,6 +22,9 @@ alembic/versions/*.pyc
 .env.local
 .env.*.local
 
+# GCP SA credentials
+svitbo-all-bucket-operator-87fc333946ac.json
+
 # Pytest cache
 .cache
 *.cover

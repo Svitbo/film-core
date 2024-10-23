@@ -1,35 +1,28 @@
-# Ignore Python bytecode files
+# Python bytecode files
 __pycache__
 *.pyc
 *.pyo
 *.pyd
 
-# Ignore virtual environment directories
+# Virtual environment directories
 venv/
 
-# Ignore Docker files
-Dockerfile
-docker-compose.yml
+# Docker files
 compose.d/
 
 # Ignore logs
 *.log
 
-# Ignore IDE-specific files
+# IDE-specific files
 .vscode/
 .idea/
 *.swp
 
-# Ignore testing files
+# Testing files
 tests/
 test_*.py
 
-# Ignore data files
-data/
-*.csv
-*.json
-
-# Ignore other unnecessary files
+# Other unnecessary files
 *.md
 *.zip
 *.tar.gz

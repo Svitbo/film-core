@@ -21,7 +21,6 @@ jobs:
           elif [[ "${{ github.ref }}" == "refs/heads/add-gh-actions-gcp-deployment" ]]; then
             BRANCH="develop"
             INSTANCE_NAME="${{ secrets.DEV_GCP_INSTANCE_NAME }}"
-            echo "SSH_PRIVATE_KEY=${{ secrets.DEV_GCP_SSH_PRIVATE_KEY }}" >> $GITHUB_ENV
             ZONE="${{ secrets.DEV_GCP_ZONE }}"
           else
             echo "Not a main or develop branch. Well, we shouldn't be here at all"

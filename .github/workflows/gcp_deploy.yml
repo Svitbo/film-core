@@ -15,7 +15,7 @@ env:
   CORE_REPO_URL: ${{ secrets.CORE_REPO_URL }}
 
 jobs:
-  pull-code:
+  deploy-to-gcp:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,4 +34,4 @@ jobs:
           gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.ZONE }} --command '\
             pwd && \
             whoami \
-            '
+          '

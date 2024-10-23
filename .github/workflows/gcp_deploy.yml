@@ -28,7 +28,6 @@ jobs:
             ZONE="${{ secrets.DEV_GCP_ZONE }}"
           else
             echo "Not a main or develop branch. Well, we shouldn't be here at all"
-            exit 0
           fi
 
       - name: "auth"

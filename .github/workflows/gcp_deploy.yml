@@ -32,6 +32,7 @@ jobs:
 
       - name: "test"
         run: |
+          echo $BRANCH
           echo $CREDENTIALS
 
       - name: "auth"

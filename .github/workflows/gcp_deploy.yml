@@ -20,7 +20,6 @@ jobs:
             ZONE="${{ secrets.PROD_GCP_ZONE }}"
           elif [[ "${{ github.ref }}" == "refs/heads/add-gh-actions-gcp-deployment" ]]; then
             BRANCH="develop"
-            SSH_PRIVATE_KEY="${{ secrets.DEV_GCP_SSH_PRIVATE_KEY }}"
             INSTANCE_NAME="${{ secrets.DEV_GCP_INSTANCE_NAME }}"
             echo "SSH_PRIVATE_KEY=${{ secrets.DEV_GCP_SSH_PRIVATE_KEY }}" >> $GITHUB_ENV
             ZONE="${{ secrets.DEV_GCP_ZONE }}"

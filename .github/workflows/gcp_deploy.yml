@@ -10,30 +10,14 @@ on:
 env:
   BRANCH: ${{ github.ref == 'refs/heads/main' && 'main' || secrets.DEV_GCP_INSTANCE_NAME }}
   CREDENTIALS: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_SA_CREDENTIALS || secrets.DEV_GCP_SA_CREDENTIALS }}
+  INSTANCE_NAME: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_INSTANCE_NAME || secrets.DEV_GCP_INSTANCE_NAME }}
+  ZONE: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_ZONE || secrets.DEV_GCP_ZONE }}
 
 jobs:
   pull-code:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "Deploy core to the GCP"
-        run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            BRANCH='main'
-            CREDENTIALS='${{ secrets.PROD_GCP_SA_CREDENTIALS }}'
-            INSTANCE_NAME='${{ secrets.PROD_GCP_INSTANCE_NAME }}'
-            SSH_PRIVATE_KEY='${{ secrets.PROD_GCP_SSH_PRIVATE_KEY }}'
-            ZONE='${{ secrets.PROD_GCP_ZONE }}'
-          elif [[ '${{ github.ref }}' == 'refs/heads/add-gh-actions-gcp-deployment' ]]; then
-            BRANCH='develop'
-            CREDENTIALS='${{ secrets.DEV_GCP_SA_CREDENTIALS }}'
-            INSTANCE_NAME='${{ secrets.DEV_GCP_INSTANCE_NAME }}'
-            SSH_PRIVATE_KEY='${{ secrets.DEV_GCP_SSH_PRIVATE_KEY }}'
-            ZONE='${{ secrets.DEV_GCP_ZONE }}'
-          else
-            echo "Not a main or develop branch. Well, we shouldn't be here at all"
-          fi
-
       - name: "auth"
         uses: "google-github-actions/auth@v2"
         with:
@@ -49,4 +33,4 @@ jobs:
 
       - name: Copy files to GCP
         run: |
-          gcloud compute ssh svitbo@${{ secrets.DEV_GCP_INSTANCE_NAME }} --zone ${{ secrets.DEV_GCP_ZONE }} --command 'pwd && whoami'
+          gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.GCP_ZONE }} --command 'pwd && whoami'

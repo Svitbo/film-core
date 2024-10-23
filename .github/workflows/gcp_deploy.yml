@@ -33,4 +33,4 @@ jobs:
 
       - name: Copy files to GCP
         run: |
-          gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.GCP_ZONE }} --command 'pwd && whoami'
+          gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.ZONE }} --command 'pwd && whoami'

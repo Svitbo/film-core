@@ -14,6 +14,7 @@ class FilmBase(BaseModel):
     duration_minutes: int
     revenue: int
     description: str
+    cover_image: str | None = None
 
 
 class FilmCreate(FilmBase):

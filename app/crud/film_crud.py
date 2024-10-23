@@ -1,7 +1,11 @@
+from fastapi import HTTPException, UploadFile
 from sqlalchemy import asc, desc
 from sqlalchemy.orm import Session
 
+from ..config import config
+from ..gcp import static_bucket
 from ..models import Film as FilmModel
+from ..models import User as UserModel
 from ..schemas import Film as FilmSchema
 from ..schemas import FilmCreate
 
@@ -16,11 +20,35 @@ def create_film(db: Session, film: FilmCreate) -> FilmSchema:
         duration_minutes=film.duration_minutes,
         revenue=film.revenue,
         description=film.description,
+        cover_image=None,
     )
     db.add(db_film)
     db.commit()
     db.refresh(db_film)
     return db_film
+
+
+def update_film_cover_image(
+    db: Session, film_id: int, cover_image_url: str
+) -> FilmSchema:
+    film = db.query(FilmModel).filter(FilmModel.id == film_id).first()
+    if not film:
+        return None
+
+    film.cover_image = cover_image_url
+    db.commit()
+    db.refresh(film)
+    return film
+
+
+async def upload_to_gcp_bucket(
+    file: UploadFile, bucket_name: str, object_name: str
+) -> str:
+    blob = static_bucket.blob(object_name)
+
+    blob.upload_from_file(file.file, content_type=file.content_type)
+
+    return f"{config.GCP_STORAGE_API_PREFIX}/{bucket_name}/{object_name}"
 
 
 def get_film_by_id(db: Session, film_id: int) -> FilmSchema:
@@ -81,3 +109,40 @@ def delete_film(db: Session, film_id: int) -> bool:
         db.commit()
         return True
     return False
+
+
+# "Favorite film" operations
+
+
+def add_film_to_favorites(db: Session, user_id: int, film_id: int):
+    user = db.query(UserModel).filter(UserModel.id == user_id).first()
+    film = db.query(FilmModel).filter(FilmModel.id == film_id).first()
+
+    if not user or not film:
+        raise HTTPException(status_code=404, detail="User or film not found")
+
+    if film in user.favorite_films:
+        raise HTTPException(status_code=400, detail="Film already in favorites")
+
+    user.favorite_films.append(film)
+    db.commit()
+    db.refresh(user)
+
+    return user
+
+
+def remove_film_from_favorites(db: Session, user_id: int, film_id: int):
+    user = db.query(UserModel).filter(UserModel.id == user_id).first()
+    film = db.query(FilmModel).filter(FilmModel.id == film_id).first()
+
+    if not user or not film:
+        raise HTTPException(status_code=404, detail="User or film not found")
+
+    if film not in user.favorite_films:
+        raise HTTPException(status_code=400, detail="Film not in favorites")
+
+    user.favorite_films.remove(film)
+    db.commit()
+    db.refresh(user)
+
+    return user

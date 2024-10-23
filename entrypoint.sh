@@ -2,8 +2,11 @@
 
 set -euo pipefail 
 
+# alembic upgrade head
+
 PLUGINS_MOD='app.plugins'
 PLUGINS_PATH="${PLUGINS_MOD/./\/}"
+
 # Enable plugins from the app.plugins module here \/
 ENABLED_PLUGINS=(
     'initial_admin'

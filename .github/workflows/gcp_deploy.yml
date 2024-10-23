@@ -12,6 +12,7 @@ env:
   CREDENTIALS: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_SA_CREDENTIALS || secrets.DEV_GCP_SA_CREDENTIALS }}
   INSTANCE_NAME: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_INSTANCE_NAME || secrets.DEV_GCP_INSTANCE_NAME }}
   ZONE: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_ZONE || secrets.DEV_GCP_ZONE }}
+  REPO_NAME: ${{ github.event.repository.name }}
 
 jobs:
   deploy-to-gcp:
@@ -32,6 +33,8 @@ jobs:
         run: |
           gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.ZONE }} --command ' \
             set -x && \
-            if [ ! -d ${{ github.event.repository.name }} ]; then git clone ${{ secrets.ALL_CORE_REPO_URL }}; fi && \
-            ls \
+            if [ ! -d '${{ env.REPO_NAME }}' ]; then git clone '${{ secrets.ALL_CORE_REPO_URL }}'; fi && \
+            cd '${{ env.REPO_NAME }}' && \
+            git checkout '${{ env.BRANCH }}' && \
+            git branch \
           '

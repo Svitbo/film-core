@@ -31,6 +31,7 @@ jobs:
       - name: "Set up core repository on remote server"
         run: |
           gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.ZONE }} --command ' \
-            if [ ! -d film-core ]; then git clone https://github.com/Svitbo/film-core; fi && \
-            whoami \
+            set -x && \
+            if [ ! -d ${{ github.event.repository.name }} ]; then git clone ${{ secrets.ALL_CORE_REPO_URL }}; fi && \
+            ls \
           '

@@ -8,7 +8,7 @@ on:
       - add-gh-actions-gcp-deployment # Remove later
 
 env:
-  VAR: "3335"
+  VAR: ${{ secrets.DEV_GCP_INSTANCE_NAME }}
 
 jobs:
   pull-code:

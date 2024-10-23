@@ -33,11 +33,6 @@ jobs:
             echo "Not a main or develop branch. Well, we shouldn't be here at all"
           fi
 
-      - name: "test"
-        run: |
-          echo ${{ env.VAR }}
-          echo $VAR
-
       - name: "auth"
         uses: "google-github-actions/auth@v2"
         with:

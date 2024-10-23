@@ -40,5 +40,5 @@ jobs:
         with:
           instance_name: "$INSTANCE"
           zone: "$ZONE"
-          ssh_private_key: "$SSH_PRIVATE_KEY"
+          ssh_private_key: "${{ secrets.DEV_GCP_SSH_PRIVATE_KEY }}"
           command: "whoami && pwd"

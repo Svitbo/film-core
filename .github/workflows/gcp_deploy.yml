@@ -12,7 +12,6 @@ env:
   CREDENTIALS: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_SA_CREDENTIALS || secrets.DEV_GCP_SA_CREDENTIALS }}
   INSTANCE_NAME: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_INSTANCE_NAME || secrets.DEV_GCP_INSTANCE_NAME }}
   ZONE: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_ZONE || secrets.DEV_GCP_ZONE }}
-  CORE_REPO_URL: ${{ secrets.CORE_REPO_URL }}
 
 jobs:
   deploy-to-gcp:
@@ -31,7 +30,7 @@ jobs:
 
       - name: "Set up core repository on server"
         run: |
-          gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.ZONE }} --command '\
-            pwd && \
+          gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.ZONE }} --command ' \
+            if [ ! -d '${{ github.event.repository.name }}' ]; then git clone ${{ secrets.ALL_CORE_REPO_URL }} && \
             whoami \
           '

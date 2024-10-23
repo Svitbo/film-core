@@ -46,3 +46,7 @@ jobs:
 
       - name: "Use gcloud CLI"
         run: "gcloud info"
+
+      - name: Copy files to GCP
+        run: |
+          gcloud compute ssh svitbo@${{ secrets.DEV_GCP_INSTANCE_NAME }} --zone ${{ secrets.DEV_GCP_ZONE }} --command 'pwd && whoami'

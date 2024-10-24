@@ -41,7 +41,7 @@ core-destroy-prod:
 		down \
 		-t 3
 
-core-backend-logs:
+core-logs:
 	docker compose -f compose.d/compose.yml \
 		-f compose.d/compose-dev.yml \
 		logs -f

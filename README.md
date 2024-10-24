@@ -1,30 +1,75 @@
-# Svitbo Backend
+# 🦭 Svitbo Core
+
+The core part of the Svitbo project that consists of the following services:
+
+- FastAPI backend
+- MariaDB data layer
+- Adminer DB manager (optional)
+
+Suits well with the [Svitbo frontend](https://github.com/Svitbo/film-frontend).
+
+## Requirements
+
+The list of requirements needed to bootstrap the backend:
+
+- Python 3.8+
+- Docker with Compose plugin
+- Make
+
+## Environments
+
+Currently, the core part supports two environments:
+
+- `prod`:
+  - Starts the FastAPI service without publishing any ports
+  - Starts the MariaDB service without publishing any ports
+- `dev`:
+  - Exposes FastAPI service on port `9000`
+  - Exposes MariaDB service on port `4472`
+  - Exposes Adminer service on port `9292`
 
 ## How to Start
 
-Copy the example of the environment file and adjust values for your needs.
-These values are used only in the testing purposes.
+Copy an example of the environment file and adjust values based on your needs:
 
 ```shell
 cp .env.example .env
 ```
 
-Start local MariaDB, Adminer (simple UI for the DB) and backend instances using Docker Compose functionality:
+Start local service instances using Docker Compose functionality:
 
 ```shell
 # This can take some time on the first run
-docker compose up -d
+make core-apply-dev
+
+# Or, if you want to simulate prod environment:
+make core-apply-prod
 ```
 
-Now your backend is accessible under the `http://localhost:9000` address.
+Now you can reach FastAPI backend targeting the `http://localhost:9000` address.
 
 Or you can connect to your local MariaDB instance using Adminer Web UI:
 
-- Open the `http://localhost:8090` from your browser
+- Open the `http://localhost:9292` from your browser
 - Fill all connection fields:
   - System: `MySQL`
-  - Server: `mariadb:3307` # Hostname is resolved by the Docker inner-network
-  - Username: `<MARIADB_USER-value-from-.env-file>`
-  - Password: `<MARIADB_PASSWORD-value-from-.env-file>`
-  - Database: `<MARIADB_DATABASE-value-from-.env-file>`
-- After pressing the `Login` button, you should see another page with Adminer interface
+  - Server: `mariadb`
+  - Username: `<MARIADB_USER-value-from-dotenv-file>`
+  - Password: `<MARIADB_PASSWORD-value-from-dotenv-file>`
+  - Database: `<MARIADB_DATABASE-value-from-dotenv-file>`
+
+## Supported Make Targets
+
+### Environment-Specific
+
+| Target              | Action                                                                            |
+| ------------------- | --------------------------------------------------------------------------------- |
+| core-apply-${env}   | Turns up all the services with environment-specific configurations                |
+| core-destroy-${env} | Turns off all the services. Additionally, prune MariaDB data volume for the `dev` |
+
+### Project-Specific
+
+| Target    | Action                                                                      |
+| --------- | --------------------------------------------------------------------------- |
+| venv      | Generates Python's virtual environment and installs all dependency packages |
+| core-logs | Attaches terminal to the Docker Compose logs of all started services        |

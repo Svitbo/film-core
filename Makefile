@@ -33,10 +33,16 @@ core-destroy-dev:
 		--env-file .env \
 		down \
 		-t 3 \
-		--volumes \
+		--volumes
 
 core-destroy-prod:
 	docker compose -f compose.d/compose.yml \
 		--env-file .env \
 		down \
-		-t 3 \
+		-t 3
+
+core-backend-logs:
+	docker compose -f compose.d/compose.yml \
+		-f compose.d/compose-dev.yml \
+		logs -f \
+		backend

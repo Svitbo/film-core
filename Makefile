@@ -44,5 +44,4 @@ core-destroy-prod:
 core-backend-logs:
 	docker compose -f compose.d/compose.yml \
 		-f compose.d/compose-dev.yml \
-		logs -f \
-		backend
+		logs -f

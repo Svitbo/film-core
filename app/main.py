@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from .config import config
 from .database import engine
 from .models import Base
 from .routes import film_router, user_router
@@ -9,12 +10,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8080",
-]
+origins = config.CORS_ORIGINS
 
 app.add_middleware(
     CORSMiddleware,

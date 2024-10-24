@@ -19,6 +19,7 @@ class Config:
     # Plugins section
     INITIAL_ADMIN_USERNAME = os.getenv("INITIAL_ADMIN_USERNAME")
     INITIAL_ADMIN_PASSWORD = os.getenv("INITIAL_ADMIN_PASSWORD")
+    CORS_ORIGINS = os.getenv("CORS_ORIGINS").split(";")
 
     # JWT section
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")

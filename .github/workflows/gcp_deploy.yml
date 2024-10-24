@@ -36,6 +36,6 @@ jobs:
             set -x && \
             if [ ! -d ${{ env.REPO_NAME }} ]; then git clone ${{ secrets.ALL_CORE_REPO_URL }} && cp ./film-core-secrets film-core/ ; fi && \
             cd ${{ env.REPO_NAME }} && \
-            git checkout '${{ env.BRANCH }}' && \
+            git checkout ${{ env.BRANCH }} && \
             make ${{ env.DOCKER_COMPOSE_TARGET }}
           '

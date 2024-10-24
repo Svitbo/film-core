@@ -33,7 +33,7 @@ async def token_route(
     db_user = await authenticate_user(db, form_data.username, form_data.password)
     if not db_user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    access_token = create_access_token(data={"sub": db_user.username})
+    access_token = create_access_token(data={"sub": db_user.username, "role": db_user.role})
     return {"access_token": access_token, "token_type": "bearer"}
 
 

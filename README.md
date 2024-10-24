@@ -62,10 +62,10 @@ Or you can connect to your local MariaDB instance using Adminer Web UI:
 
 ### Environment-Specific
 
-| Target              | Action                                                                            |
-| ------------------- | --------------------------------------------------------------------------------- |
-| core-apply-${env}   | Turns up all the services with environment-specific configurations                |
-| core-destroy-${env} | Turns off all the services. Additionally, prune MariaDB data volume for the `dev` |
+| Target              | Action                                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------------------ |
+| core-apply-${env}   | Turns up all the services with environment-specific configurations                               |
+| core-destroy-${env} | Turns off all the services. Additionally, prune the MariaDB data volume in the `dev` environment |
 
 ### Project-Specific
 

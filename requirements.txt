@@ -1,15 +1,12 @@
-fastapi
-sqlalchemy
-databases
-pydantic
-pydantic[email]
-uvicorn
-mysqlclient
-# mariadb  # Should replace `mysqlclient` at the end of the day
 alembic
-python-dotenv
-pymysql
-python-jose
 bcrypt
-python-multipart
+fastapi
 google-cloud-storage
+mariadb
+pydantic
+pymysql
+python-dotenv
+python-jose
+python-multipart
+sqlalchemy
+uvicorn

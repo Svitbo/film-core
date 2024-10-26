@@ -8,7 +8,12 @@ from ..auth.auth import (
     get_current_user,
     get_user_by_username,
 )
-from ..crud import add_film_to_favorites, create_user, remove_film_from_favorites
+from ..crud import (
+    add_film_to_favorites,
+    create_user,
+    get_favorite_films,
+    remove_film_from_favorites,
+)
 from ..database import get_db
 from ..enums import RoleEnum
 from ..models import User as UserModel
@@ -20,9 +25,6 @@ router = APIRouter()
 
 @router.post("/register", response_model=User)
 def register_route(user: UserCreate, db: Session = Depends(get_db)):
-    db_user = get_user_by_username(db, user.username)
-    if db_user:
-        raise HTTPException(status_code=400, detail="Username already registered")
     return create_user(db=db, user=user, role=RoleEnum.USER)
 
 
@@ -31,13 +33,27 @@ async def token_route(
     form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):
     db_user = await authenticate_user(db, form_data.username, form_data.password)
+
     if not db_user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    access_token = create_access_token(data={"sub": db_user.username, "role": db_user.role})
+
+    access_token = create_access_token(
+        data={"sub": db_user.username, "role": db_user.role}
+    )
+
     return {"access_token": access_token, "token_type": "bearer"}
 
 
 # "Favorite film" operations
+
+
+@router.post("/favorites/{film_id}", response_model=User)
+def add_favorite_film(
+    film_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    return add_film_to_favorites(db, current_user.id, film_id)
 
 
 @router.post("/users/{user_id}/favorites/{film_id}", response_model=User)
@@ -58,14 +74,28 @@ def get_user_favorite_films(
     current_user: UserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    user = db.query(UserModel).filter(UserModel.id == current_user.id).first()
+    return get_favorite_films(db, current_user.id)
 
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
-        )
 
-    return user.favorite_films
+@router.get("/users/{user_id}/favorites", response_model=list[FilmSchema])
+def get_user_favorite_films(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    if current_user.id != user_id and current_user.role != RoleEnum.ADMIN:
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    return get_favorite_films(db, user_id)
+
+
+@router.delete("/favorites/{film_id}", response_model=User)
+def remove_favorite_film(
+    film_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    return remove_film_from_favorites(db, current_user.id, film_id)
 
 
 @router.delete("/users/{user_id}/favorites/{film_id}", response_model=User)

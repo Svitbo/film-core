@@ -1,18 +1,20 @@
+name: svitbo
+
 services:
   backend:
     build:
       context: ..
       dockerfile: compose.d/Dockerfile.backend
-    container_name: backend
+    container_name: svitbo-backend
     restart: unless-stopped
     depends_on:
       - mariadb
     networks:
-      - svitbo
+      - general
 
   mariadb:
     image: mariadb:lts
-    container_name: mariadb
+    container_name: svitbo-mariadb
     restart: unless-stopped
     environment:
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
@@ -22,10 +24,10 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - svitbo
+      - general
 
 networks:
-  svitbo:
+  general:
 
 volumes:
   db_data:

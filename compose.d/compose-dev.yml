@@ -5,15 +5,15 @@ services:
 
   mariadb:
     ports:
-      - "3306:3306"
+      - "4472:3306"
 
   adminer:
     image: adminer:4
-    container_name: adminer
+    container_name: svitbo-adminer
     restart: unless-stopped
     ports:
-      - "8090:8080"
+      - "9292:8080"
     depends_on:
       - mariadb
     networks:
-      - svitbo
+      - general

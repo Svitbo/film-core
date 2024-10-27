@@ -9,6 +9,7 @@ venv/
 
 # Docker files
 compose.d/
+!compose.d/entrypoint*.sh
 
 # Ignore logs
 *.log

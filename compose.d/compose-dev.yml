@@ -8,14 +8,12 @@ services:
       - "4472:3306"
 
   adminer:
-    build:
-      context: ../
-      dockerfile: compose.d/Dockerfile.adminer
-    container_name: adminer
+    image: adminer:4
+    container_name: svitbo-adminer
     restart: unless-stopped
     ports:
       - "9292:8080"
     depends_on:
       - mariadb
     networks:
-      - svitbo
+      - general

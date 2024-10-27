@@ -20,12 +20,10 @@ def create_user(db: Session, user: UserCreate, role: RoleEnum) -> UserSchema:
     db_user = db.query(UserModel).filter(UserModel.username == user.username).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
-    print(f"{db_user = }1111111")
 
     db_user = UserModel(
         username=user.username, hashed_password=hashed_password, role=role
     )
-    print(f"{db_user = }1111111")
 
     db.add(db_user)
     db.commit()

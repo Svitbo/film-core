@@ -1,7 +1,7 @@
 .ONESHELL: /usr/bin/bash
 .PHONY: core*
 
-# Dependency building targets
+# Environment setup targets
 
 venv:
 	python3 -m venv venv

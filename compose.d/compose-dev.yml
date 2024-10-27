@@ -5,7 +5,7 @@ services:
 
   mariadb:
     ports:
-      - "3306:3306"
+      - "4472:3306"
 
   adminer:
     build:
@@ -14,7 +14,7 @@ services:
     container_name: adminer
     restart: unless-stopped
     ports:
-      - "8090:8080"
+      - "9292:8080"
     depends_on:
       - mariadb
     networks:

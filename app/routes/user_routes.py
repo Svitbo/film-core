@@ -38,7 +38,7 @@ async def token_route(
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     access_token = create_access_token(
-        data={"sub": db_user.username, "role": db_user.role}
+        data={"sub": db_user.username, "role": db_user.role, "id": db_user.id}
     )
 
     return {"access_token": access_token, "token_type": "bearer"}
@@ -63,7 +63,7 @@ def add_favorite_film(
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),
 ):
-    if current_user.id != user_id and current_user.role != RoleEnum.ADMIN:
+    if current_user.id != user_id and current_user.role != RoleEnum.USER:
         raise HTTPException(status_code=403, detail="Not authorized")
 
     return add_film_to_favorites(db, user_id, film_id)

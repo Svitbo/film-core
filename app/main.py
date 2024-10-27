@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .config import config
 from .database import engine
 from .models import Base
-from .routes import film_router, user_router
+from .routes import film_router, review_router, user_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -22,3 +22,4 @@ app.add_middleware(
 
 app.include_router(film_router, prefix="/films", tags=["films"])
 app.include_router(user_router, tags=["users"])
+app.include_router(review_router, prefix="/reviews", tags=["reviews"])

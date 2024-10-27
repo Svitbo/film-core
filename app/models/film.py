@@ -26,3 +26,5 @@ class Film(Base):
     favorited_by = relationship(
         "User", secondary=favorite_films_table, back_populates="favorite_films"
     )
+
+    reviews = relationship("Review", back_populates="film")

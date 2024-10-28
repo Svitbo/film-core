@@ -5,9 +5,10 @@ on:
     branches:
       - main
       - develop
+      - feature/gha-gcp-deployment
 
 env:
-  BRANCH: ${{ github.ref == 'refs/heads/main' && 'main' || 'develop' }}
+  BRANCH: ${{ github.ref == 'refs/heads/main' && 'main' || 'feature/gha-gcp-deployment' }}
   CREDENTIALS: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_SA_CREDENTIALS || secrets.DEV_GCP_SA_CREDENTIALS }}
   INSTANCE_NAME: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_INSTANCE_NAME || secrets.DEV_GCP_INSTANCE_NAME }}
   ZONE: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_ZONE || secrets.DEV_GCP_ZONE }}

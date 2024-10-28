@@ -26,7 +26,14 @@ WORKDIR /app
 
 COPY --from=builder /app/venv ./venv
 
-COPY . .
+COPY \
+    .env \
+    alembic* \
+    app \
+    compose.d/entrypoint.sh
+    requirements.txt
+    svitbo*
+    .
 
 EXPOSE 8000
 

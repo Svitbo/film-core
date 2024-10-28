@@ -8,8 +8,12 @@ __pycache__
 venv/
 
 # Docker files
+.dockerignore
 compose.d/
 !compose.d/entrypoint*.sh
+
+# Git files
+.git*
 
 # Ignore logs
 *.log

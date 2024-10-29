@@ -1,0 +1,41 @@
+name: Deploy to GCP
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+env:
+  BRANCH: ${{ github.ref == 'refs/heads/main' && 'main' || 'develop' }}
+  CREDENTIALS: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_SA_CREDENTIALS || secrets.DEV_GCP_SA_CREDENTIALS }}
+  INSTANCE_NAME: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_INSTANCE_NAME || secrets.DEV_GCP_INSTANCE_NAME }}
+  ZONE: ${{ github.ref == 'refs/heads/main' && secrets.PROD_GCP_ZONE || secrets.DEV_GCP_ZONE }}
+  DOCKER_COMPOSE_TARGET: ${{ github.ref == 'refs/heads/main' && 'core-apply-prod' || 'core-apply-dev' }}
+  REPO_NAME: ${{ github.event.repository.name }}
+
+jobs:
+  deploy-to-gcp:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "GCP auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: ${{ env.CREDENTIALS }}
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+        with:
+          version: ">= 363.0.0"
+
+      - name: "Set up core repository on remote server"
+        run: |
+          gcloud compute ssh svitbo@${{ env.INSTANCE_NAME }} --zone ${{ env.ZONE }} --command ' \
+            set -x && \
+            if [ ! -d '${{ env.REPO_NAME }}' ]; then git clone '${{ secrets.ALL_CORE_REPO_URL }}'; fi && \
+            cp './${{ env.REPO_NAME }}-secrets/'{*,.*} './${{ env.REPO_NAME }}' && \
+            cd '${{ env.REPO_NAME }}' && \
+            git checkout '${{ env.BRANCH }}' && \
+            make '${{ env.DOCKER_COMPOSE_TARGET }}'
+          '

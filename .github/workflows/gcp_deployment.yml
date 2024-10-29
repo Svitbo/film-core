@@ -37,5 +37,6 @@ jobs:
             cp './${{ env.REPO_NAME }}-secrets/'{*,.*} './${{ env.REPO_NAME }}' && \
             cd '${{ env.REPO_NAME }}' && \
             git checkout '${{ env.BRANCH }}' && \
+            git pull && \
             make '${{ env.DOCKER_COMPOSE_TARGET }}'
           '
